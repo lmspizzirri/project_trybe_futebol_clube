@@ -1,6 +1,7 @@
 import { Request, Response, Router } from 'express';
 import MatchController from '../controllers/match.controller';
 import MatchService from '../services/match.service';
+import Validations from '../middewares/Validations';
 
 const matchService = new MatchService();
 const matchController = new MatchController(matchService);
@@ -8,5 +9,21 @@ const matchController = new MatchController(matchService);
 const router = Router();
 
 router.get('/', (req: Request, res: Response) => matchController.findAllMatches(req, res));
+router.patch(
+  '/:id/finish',
+  Validations.validateToken,
+  (req: Request, res: Response) => matchController.finishMatch(req, res),
+);
+router.patch(
+  '/:id',
+  Validations.validateToken,
+  (req: Request, res: Response) => matchController.updateMatch(req, res),
+);
+router.post(
+  '/',
+  Validations.validateToken,
+  Validations.validateUniqueTeam,
+  (req: Request, res: Response) => matchController.createMatch(req, res),
+);
 
 export default router;
