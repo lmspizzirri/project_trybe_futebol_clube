@@ -1,5 +1,5 @@
 import { Request, Response, Router } from 'express';
-import TeamController from '../controllers/teams.controller'
+import TeamController from '../controllers/teams.controller';
 
 const teamController = new TeamController();
 

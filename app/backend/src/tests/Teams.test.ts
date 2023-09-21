@@ -18,22 +18,22 @@ describe('Testes da rota teams', () => {
 
   it('Retorna todos os times', async () => {
     //ARRANGE
-    sinon.stub(SequelizeTeam, 'findAll').resolves(teams);
+    sinon.stub(SequelizeTeam, 'findAll').resolves(teams as any);
     //ACT
     const { status, body } = await chai.request(app).get('/teams');
     //ASSERT
     expect(status).to.equal(200);
-    expect(body).to.deeep.equal(teams);
+    expect(body).to.deep.equal(teams);
   });
 
   it('Retorna time pelo id com sucesso', async () => {
     //ARRANGE
-    sinon.stub(SequelizeTeam, 'findByPk').resolves(teams[0]);
+    sinon.stub(SequelizeTeam, 'findByPk').resolves(teams[0] as any);
     //ACT
     const { status, body } = await chai.request(app).get('/teams/1');
     //ASSERT
     expect(status).to.equal(200);
-    expect(body).to.deeep.equal(teams[0]);
+    expect(body).to.deep.equal(teams[0]);
   });
 
   it('Retorna time pelo id com falha', async () => {
@@ -43,7 +43,7 @@ describe('Testes da rota teams', () => {
     const { status, body } = await chai.request(app).get('/teams/3');
     //ASSERT
     expect(status).to.equal(404);
-    expect(body).to.deeep.equal('Team not found');
+    expect(body).to.deep.equal('Team not found');
   });
 
 });

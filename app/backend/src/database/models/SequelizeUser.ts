@@ -44,7 +44,7 @@ SequelizeUser.init({
   },
 }, {
   sequelize: db,
-  modelName: 'trybeEval',
+  modelName: 'user',
   timestamps: false,
 });
 

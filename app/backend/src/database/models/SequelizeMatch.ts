@@ -8,8 +8,8 @@ import {
 import db from '.';
 // import OtherModel from './OtherModel';
 
-class SequelizeMatches extends Model<InferAttributes<SequelizeMatches>,
-InferCreationAttributes<SequelizeMatches>> {
+class SequelizeMatch extends Model<InferAttributes<SequelizeMatch>,
+InferCreationAttributes<SequelizeMatch>> {
   declare id: CreationOptional<number>;
   declare homeTeamId: number;
   declare homeTeamGoals: number;
@@ -18,7 +18,7 @@ InferCreationAttributes<SequelizeMatches>> {
   declare inProgress: boolean;
 }
 
-SequelizeMatches.init({
+SequelizeMatch.init({
   id: {
     type: DataTypes.INTEGER,
     allowNull: false,
@@ -47,7 +47,7 @@ SequelizeMatches.init({
   },
 }, {
   sequelize: db,
-  modelName: 'matches',
+  modelName: 'match',
   timestamps: false,
   underscored: true,
 });
@@ -57,10 +57,10 @@ SequelizeMatches.init({
     * Associations 1:N devem ficar em uma das instâncias de modelo
     * */
 
-// OtherModel.belongsTo(SequelizeMatches, { foreignKey: 'campoA', as: 'campoEstrangeiroA' });
-// OtherModel.belongsTo(SequelizeMatches, { foreignKey: 'campoB', as: 'campoEstrangeiroB' });
+// OtherModel.belongsTo(SequelizeMatch, { foreignKey: 'campoA', as: 'campoEstrangeiroA' });
+// OtherModel.belongsTo(SequelizeMatch, { foreignKey: 'campoB', as: 'campoEstrangeiroB' });
 
-// SequelizeMatches.hasMany(OtherModel, { foreignKey: 'campoC', as: 'campoEstrangeiroC' });
-// SequelizeMatches.hasMany(OtherModel, { foreignKey: 'campoD', as: 'campoEstrangeiroD' });
+// SequelizeMatch.hasMany(OtherModel, { foreignKey: 'campoC', as: 'campoEstrangeiroC' });
+// SequelizeMatch.hasMany(OtherModel, { foreignKey: 'campoD', as: 'campoEstrangeiroD' });
 
-export default SequelizeMatches;
+export default SequelizeMatch;

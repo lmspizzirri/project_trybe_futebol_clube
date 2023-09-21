@@ -1,10 +1,22 @@
-// import { Request, Response, Router } from 'express';
-// import LoginController from '../controllers/login.controller'
+import { Request, Response, Router } from 'express';
+import Validations from '../middewares/Validations';
+import LoginController from '../controllers/login.controller';
+import LoginService from '../services/login.service';
+import UserModel from '../models/UserModel';
+import JWT from '../utils/jwt';
 
-// const loginController = new LoginController();
+const userModel = new UserModel();
+const token = new JWT();
+const userService = new LoginService(userModel, token);
+const loginController = new LoginController(userService);
 
-// const router = Router();
+const router = Router();
 
-// router.post('/', (req: Request, res: Response) => loginController.login(req, res));
+router.post(
+  '/',
+  Validations.validateLogin,
 
-// export default router;
+  (req: Request, res: Response) => loginController.login(req, res),
+);
+
+export default router;
