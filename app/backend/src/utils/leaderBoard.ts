@@ -36,14 +36,30 @@ function totalPoints(homeTeams: IMatch[], filledLeaderBoard: ILeaderBoard) {
   return homeLeaderBoard;
 }
 
-export default function homeTeamStatistics(homeTeams: ILeaderBoardAux[]) {
-  return homeTeams.map((team) => {
+function sortLeaderboard(leaderBoards: ILeaderBoard[]): ILeaderBoard[] {
+  return leaderBoards.sort((a, b) => {
+    let winner = b.totalPoints - a.totalPoints;
+    if (winner === 0) {
+      winner = b.totalVictories - a.totalVictories;
+      if (winner === 0) {
+        winner = b.goalsBalance - a.goalsBalance;
+        if (winner === 0) {
+          winner = b.goalsFavor - a.goalsFavor;
+        }
+      }
+    }
+    return winner;
+  });
+}
+
+export default function homeTeamStatistics(homeTeams: ILeaderBoardAux[]): ILeaderBoard[] {
+  return sortLeaderboard(homeTeams.map((team) => {
     let homeLeaderBoard = { ...leaderBoard };
     homeLeaderBoard.name = team.teamName;
-    homeLeaderBoard = { ...totalPoints(team.teamHome, homeLeaderBoard) };
+    homeLeaderBoard = { ...totalPoints(team.homeTeamMatches, homeLeaderBoard) };
     homeLeaderBoard.goalsBalance = homeLeaderBoard.goalsFavor - homeLeaderBoard.goalsOwn;
     homeLeaderBoard.efficiency = ((homeLeaderBoard.totalPoints
         / (homeLeaderBoard.totalGames * 3)) * 100);
     return homeLeaderBoard;
-  });
+  }));
 }

@@ -19,8 +19,19 @@ export default class TeamModel implements ITeamModel {
 
   findHomeTeams = async (): Promise <ITeam[]> => {
     const dbData = await this.model
-      .findAll({ include:
-      { model: SequelizeMatch, foreignKey: 'homeTeamId', where: { inProgress: false } } });
+      .findAll({ include: {
+        model: SequelizeMatch,
+        as: 'homeTeamMatches',
+        where: { inProgress: false } } });
+    return dbData;
+  };
+
+  findAwayTeams = async (): Promise <ITeam[]> => {
+    const dbData = await this.model
+      .findAll({ include: {
+        model: SequelizeMatch,
+        as: 'AwayTeamMatches',
+        where: { inProgress: false } } });
     return dbData;
   };
 }
