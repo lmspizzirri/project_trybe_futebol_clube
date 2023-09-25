@@ -21,7 +21,7 @@ describe('Testes da rota de User', () => {
     const { status, body } = await chai.request(app).post('/login').send(UsersMock.noEmailInput);
     //ASSERT
     expect(status).to.be.equal(400);
-    expect(body).to.be.deep.equal({ message: 'All fields must be filled'});
+    expect(body).to.be.deep.equal({ message: 'Preencha os campos'});
   });
 
   it('Falha por falta de password', async () => {
@@ -30,7 +30,7 @@ describe('Testes da rota de User', () => {
     const { status, body } = await chai.request(app).post('/login').send(UsersMock.noPasswordInput);
     //ASSERT
     expect(status).to.be.equal(400);
-    expect(body).to.be.deep.equal({ message: 'All fields must be filled'});
+    expect(body).to.be.deep.equal({ message: 'Preencha os campos'});
   });
 
   it('Falha por email com formato incorreto', async () => {
@@ -39,7 +39,7 @@ describe('Testes da rota de User', () => {
     const { status, body } = await chai.request(app).post('/login').send(UsersMock.invalidEmailInput);
     //ASSERT
     expect(status).to.be.equal(401);
-    expect(body).to.be.deep.equal({ message: 'Invalid email or password'});
+    expect(body).to.be.deep.equal({ message: 'Email ou senha inválido'});
   });
 
   it('Falha por password com formato incorreto', async () => {
@@ -48,7 +48,7 @@ describe('Testes da rota de User', () => {
     const { status, body } = await chai.request(app).post('/login').send(UsersMock.invalidPasswordInput);
     //ASSERT
     expect(status).to.be.equal(401);
-    expect(body).to.be.deep.equal({ message: 'Invalid email or password'});
+    expect(body).to.be.deep.equal({ message: 'Email ou senha inválido'});
   });
 
   it('Login bem sucedido', async () => {
@@ -60,8 +60,6 @@ describe('Testes da rota de User', () => {
     const { status } = await chai.request(app).post('/login').send(UsersMock.validUserInput);
     //ASSERT
     expect(status).to.be.equal(200);
-
-    sinon.restore();
   });
 
   it('Falha email não encontrado no DB', async () => {
@@ -73,6 +71,5 @@ describe('Testes da rota de User', () => {
     const { status } = await chai.request(app).post('/login').send(UsersMock.validUserInput);
     //ASSERT
     expect(status).to.be.equal(200);
-    sinon.restore();
   });
 });

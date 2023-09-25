@@ -35,9 +35,8 @@ export default class MatchService {
 
   public createMatch = async (matchBody: CreateMatchBody):
   Promise<ServiceResponse<CreateMatchBody>> => {
-    const { homeTeamId, awayTeamId } = matchBody;
-    const homeTeam = await this.teamModel.findTeamById(Number(homeTeamId));
-    const awayTeam = await this.teamModel.findTeamById(Number(awayTeamId));
+    const homeTeam = await this.teamModel.findTeamById(matchBody.homeTeamId);
+    const awayTeam = await this.teamModel.findTeamById(matchBody.awayTeamId);
 
     if (!homeTeam || !awayTeam) {
       return { status: 'NOT_FOUND', data: { message: 'There is no team with such id!' } };

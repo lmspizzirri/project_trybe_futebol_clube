@@ -1,9 +1,9 @@
 import * as bcryptjs from 'bcryptjs';
-import IUserModel from '../Interfaces/IUserModel';
-import UserModel from '../models/UserModel';
-import { ServiceResponse } from '../Interfaces/ServiceResponse';
 import IToken from '../Interfaces/IToken';
+import IUserModel from '../Interfaces/IUserModel';
+import { ServiceResponse } from '../Interfaces/ServiceResponse';
 import Token from '../Interfaces/Token';
+import UserModel from '../models/UserModel';
 
 export default class UserService {
   constructor(
@@ -25,15 +25,13 @@ export default class UserService {
     return { status: 'SUCCESSFUL', data: { token } };
   };
 
-  public getRole = async (token: string):Promise<ServiceResponse<{ role: string }>> => {
+  public getRole = async (token: string): Promise<ServiceResponse<{ role: string }>> => {
     const userEmail = this.JWT.decode(token);
-    const userByEmail = await this.userModel.findByEmail(userEmail);
-    if (!userByEmail) {
-      return {
-        status: 'UNAUTHORIZED',
-        data: { message: this.invalid },
+    const dbUser = await this.userModel.findByEmail(userEmail);
+    if (!dbUser) {
+      return { status: 'UNAUTHORIZED', data: { message: this.invalid },
       };
     }
-    return { status: 'SUCCESSFUL', data: { role: userByEmail.role } };
+    return { status: 'SUCCESSFUL', data: { role: dbUser.role } };
   };
 }

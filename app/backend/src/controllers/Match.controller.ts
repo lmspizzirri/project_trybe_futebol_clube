@@ -7,6 +7,11 @@ export default class MatchController {
     private matchService = new MatchService(),
   ) { }
 
+  public createMatch = async (req: Request, res: Response) => {
+    const { status, data } = await this.matchService.createMatch(req.body);
+    return res.status(mapStatusHTTP(status)).json(data);
+  };
+
   public findAllMatches = async (req: Request, res: Response) => {
     const matchStatus = req.query.inProgress as string;
     let matchData = null;
@@ -21,7 +26,7 @@ export default class MatchController {
 
   public finishMatch = async (req: Request, res: Response) => {
     const { id } = req.params;
-    const { status, data } = await this.matchService.finishMatch(Number(id));
+    const { status, data } = await this.matchService.finishMatch(parseInt(id, 10));
     return res.status(mapStatusHTTP(status)).json(data);
   };
 
@@ -29,12 +34,7 @@ export default class MatchController {
     const { id } = req.params;
     const { homeTeamGoals, awayTeamGoals } = req.body;
     const { status, data } = await this
-      .matchService.updateMatch(Number(id), homeTeamGoals, awayTeamGoals);
-    return res.status(mapStatusHTTP(status)).json(data);
-  };
-
-  public createMatch = async (req: Request, res: Response) => {
-    const { status, data } = await this.matchService.createMatch(req.body);
+      .matchService.updateMatch(parseInt(id, 10), homeTeamGoals, awayTeamGoals);
     return res.status(mapStatusHTTP(status)).json(data);
   };
 }

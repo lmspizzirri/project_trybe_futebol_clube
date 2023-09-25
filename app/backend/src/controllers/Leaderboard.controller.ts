@@ -5,13 +5,13 @@ import mapStatusHTTP from '../utils/mapStatusHTTP';
 export default class LeaderboardController {
   constructor(private leaderboardService = new LeaderboardService()) {}
 
-  public homeTeamStats = async (_req: Request, res: Response) => {
-    const { status, data } = await this.leaderboardService.homeTeamStats();
+  public teamStats = async (req: Request, res: Response, isHomeTeam: boolean) => {
+    const { status, data } = await this.leaderboardService.teamStats(isHomeTeam);
     return res.status(mapStatusHTTP(status)).json(data);
   };
 
-  // public awayTeamStats = async (_req: Request, res: Response) => {
-  //   const { status, data } = await this.leaderboardService.awayTeamStats();
-  //   return res.status(mapStatusHTTP(status)).json(data);
-  // };
+  public fullTeamStats = async (req: Request, res: Response) => {
+    const { status, data } = await this.leaderboardService.fullTeamStats();
+    return res.status(mapStatusHTTP(status)).json(data);
+  };
 }

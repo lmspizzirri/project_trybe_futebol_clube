@@ -14,7 +14,7 @@ const invalidEmailInput = {
 }
 const noPasswordInput = {
     email: 'test@trybe.com',
-    password: '123456'
+    password: ''
 }
 
 const invalidPasswordInput =  {

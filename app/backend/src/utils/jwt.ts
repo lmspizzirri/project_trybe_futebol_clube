@@ -23,6 +23,7 @@ export default class JWT implements IToken {
       this.jwt.verify(tokenUnbearer, this.secret);
       return true;
     } catch (error) {
+      console.error(error);
       return false;
     }
   }
