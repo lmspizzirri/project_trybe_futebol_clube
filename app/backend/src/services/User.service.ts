@@ -25,13 +25,15 @@ export default class UserService {
     return { status: 'SUCCESSFUL', data: { token } };
   };
 
-  public getRole = async (token: string): Promise<ServiceResponse<{ role: string }>> => {
+  public getRole = async (token: string):Promise<ServiceResponse<{ role: string }>> => {
     const userEmail = this.JWT.decode(token);
-    const dbUser = await this.userModel.findByEmail(userEmail);
-    if (!dbUser) {
-      return { status: 'UNAUTHORIZED', data: { message: this.invalid },
+    const userByEmail = await this.userModel.findByEmail(userEmail);
+    if (!userByEmail) {
+      return {
+        status: 'UNAUTHORIZED',
+        data: { message: this.invalid },
       };
     }
-    return { status: 'SUCCESSFUL', data: { role: dbUser.role } };
+    return { status: 'SUCCESSFUL', data: { role: userByEmail.role } };
   };
 }

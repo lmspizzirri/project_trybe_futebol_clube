@@ -11,18 +11,18 @@ export default class JWT implements IToken {
   }
 
   decode(token: string): string {
-    const decodedToken = this.jwt.decode(token, { complete: true });
+    const tokenUnbearer = token.includes('Bearer') ? token.split(' ')[1] : token;
+    const decodedToken = this.jwt.decode(tokenUnbearer, { complete: true });
     if (!decodedToken) return 'false';
     return decodedToken.payload.email;
   }
 
   verify(token: string): boolean {
     try {
-      const tokenUnbearer = token.includes('Bearer') ? token.split('')[1] : token;
+      const tokenUnbearer = token.includes('Bearer') ? token.split(' ')[1] : token;
       this.jwt.verify(tokenUnbearer, this.secret);
       return true;
     } catch (error) {
-      console.log(error);
       return false;
     }
   }
