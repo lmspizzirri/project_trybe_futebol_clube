@@ -27,7 +27,6 @@ SequelizeUser.init({
   username: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
   },
   role: {
     type: DataTypes.STRING,
@@ -36,7 +35,6 @@ SequelizeUser.init({
   email: {
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true,
   },
   password: {
     type: DataTypes.STRING,
@@ -46,6 +44,7 @@ SequelizeUser.init({
   sequelize: db,
   modelName: 'user',
   timestamps: false,
+  underscored: true,
 });
 
 export default SequelizeUser;

@@ -7,16 +7,16 @@ import SequelizeMatch from '../database/models/SequelizeMatch';
 export default class MatchModel implements IMatchModel {
   private model = SequelizeMatch;
 
-  async findAllMatches(): Promise<IMatch[]> {
+  findAllMatches = async (): Promise<IMatch[]> => {
     const dbData = await this.model.findAll({ include: [
       { model: SequelizeTeam, as: 'homeTeam', attributes: ['teamName'] },
       { model: SequelizeTeam, as: 'awayTeam', attributes: ['teamName'] },
     ],
     });
     return dbData;
-  }
+  };
 
-  async findFilteredMatches(inProgress: string): Promise<IMatch[]> {
+  findFilteredMatches = async (inProgress: string): Promise<IMatch[]> => {
     let boolean = true;
     if (inProgress === 'false') boolean = false;
     const dbMatches = await this.model.findAll({
@@ -26,24 +26,25 @@ export default class MatchModel implements IMatchModel {
         { model: SequelizeTeam, as: 'awayTeam', attributes: ['teamName'] },
       ],
     });
-    return dbMatches;
-  }
+    return dbMatches.map((match) => match);
+  };
 
-  async finishMatch(id: number): Promise<number> {
+  finishMatch = async (id: number):Promise<number> => {
     const affectedRows = await this.model.update({
       inProgress: false }, { where: { id } });
     if (!affectedRows) return 0;
     return 1;
-  }
+  };
 
-  async updateMatches(id: number, homeTeamGoals: number, awayTeamGoals: number): Promise<number> {
+  updateMatches =
+  async (id: number, homeTeamGoals: number, awayTeamGoals: number): Promise<number> => {
     const affectedRows = await this.model.update({
       homeTeamGoals, awayTeamGoals }, { where: { id } });
     if (!affectedRows) return 0;
     return 1;
-  }
+  };
 
-  async createMatch(matchbody: CreateMatchBody): Promise<CreateMatchBody> {
+  createMatch = async (matchbody: CreateMatchBody): Promise<CreateMatchBody> => {
     const { homeTeamId, awayTeamId, homeTeamGoals, awayTeamGoals } = matchbody;
     const newMatch = await this.model.create({
       homeTeamId,
@@ -53,5 +54,5 @@ export default class MatchModel implements IMatchModel {
       inProgress: true,
     });
     return newMatch;
-  }
+  };
 }

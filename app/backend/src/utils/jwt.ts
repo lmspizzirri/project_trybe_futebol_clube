@@ -18,9 +18,11 @@ export default class JWT implements IToken {
 
   verify(token: string): boolean {
     try {
-      this.jwt.verify(token, this.secret);
+      const tokenUnbearer = token.includes('Bearer') ? token.split('')[1] : token;
+      this.jwt.verify(tokenUnbearer, this.secret);
       return true;
     } catch (error) {
+      console.log(error);
       return false;
     }
   }
